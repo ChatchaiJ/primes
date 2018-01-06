@@ -1,26 +1,25 @@
 #include <stdio.h>
-#include <string.h>
 
-#define	MAX	(1*1000*1000*1000)
+// #define	MAX	(1000*1000*1000)
+#define	MAX	(1000*1000*1000)
+#define	N	(1000)
 
 unsigned	primes[MAX];
 char		p[MAX];
+int		h[N];
 int		pcount = 0;
-
-void	primes_add(unsigned p) {
-	primes[pcount++] = p;
-}
 
 int	main(void) {
 	int		i,j;
 
 	for (i=0; i<sizeof(p); i++) p[i]=1;
 	p[0]=p[1]=0;
+	for (i=0; i<N; i++) h[i]=0;
 
 	i=2;
 	while (1) {
 		j=i;
-		primes_add(i);
+		primes[pcount++] = i;
 		while (j+i < MAX) {
 			p[j + i ] = 0;
 			j += i;
@@ -34,8 +33,13 @@ int	main(void) {
 			break;
 	}
 
-	printf("Number of primes = %d\n", pcount);
 	for (i=0; i<pcount; i++) {
-		printf("%d\n", primes[i]);
+		h[ primes[i] / (1000*1000) ]++;
+		/* printf("%d\n", primes[i]);	*/
 	}
+
+	for (i=0; i<N ; i++) {
+		printf("%0.8f\n", (double)h[i] / 1000000);
+	}
+	return 0;
 }
